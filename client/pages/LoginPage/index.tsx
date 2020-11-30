@@ -1,10 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 
-interface IFrom {
-  email: string;
-  password: string;
-}
 const LoginPage: React.FC = () => {
   const { register, handleSubmit } = useForm<IFrom>({
     defaultValues: {
