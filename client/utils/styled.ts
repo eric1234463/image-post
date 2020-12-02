@@ -8,7 +8,19 @@ import baseStyled, {
   createGlobalStyle as _createGlobalStyle,
 } from "styled-components";
 
-export type ColorName = "YELLOW_100" | "WHITE" | "BLACK" | "GREY_50" | "GREY_100" | "GREY_200" | "PRIMARY_500" | "PRIMARY_700" | "PRIMARY_200";
+export type ColorName =
+  | "YELLOW_100"
+  | "WHITE"
+  | "BLACK"
+  | "GREY_50"
+  | "GREY_100"
+  | "GREY_200"
+  | "PRIMARY_500"
+  | "PRIMARY_700"
+  | "PRIMARY_200"
+  | "SHADOW_500"
+  | "SHADOW_400"
+  | "SHADOW_600";
 
 export type Colors = {
   [key in ColorName]: string;
@@ -29,6 +41,9 @@ export const theme: Theme = {
     PRIMARY_700: "#184e89",
     PRIMARY_500: "#2583fd",
     PRIMARY_200: "rgba(24, 78, 137, 0.12)",
+    SHADOW_500: "rgba(54, 62, 81, 0.1)",
+    SHADOW_400: "rgba(54, 62, 81, 0.05)",
+    SHADOW_600: "rgba(54, 62, 81, 0.2)",
   },
 };
 

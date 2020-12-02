@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import {
   BrowserRouter as Router,
   Route,
+  Switch
 } from "react-router-dom";
 import { Provider as StoreProvider } from 'react-redux';
-import { ThemeProvider , createGlobalStyle} from 'styled-components';
-
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import styled, { theme } from './utils/styled';
 import configureStore from './application/store/configureStore';
 import createApi from './utils/createApi';
+import LoadingPage from './pages/LoadingPage';
 
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import PostListingPage from './pages/PostListingPage';
 
 const Container = styled.div`
   margin: auto;
@@ -21,6 +23,7 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  overflow: scroll;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -45,8 +48,14 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <Container>
           <Router>
-            <Route path="/users/sign_in" exact component={LoginPage} />
-            <Route path="/users/sign_up" exact component={SignupPage} />
+            <Suspense fallback={<LoadingPage />}>
+              <Switch>
+                <Route path="/users/sign_in" exact component={LoginPage} />
+                <Route path="/users/sign_up" exact component={SignupPage} />
+                <Route path="/posts" exact component={PostListingPage} />
+              </Switch>
+              <div id="modal-root"></div>
+            </Suspense>
           </Router>
         </Container>
         <GlobalStyle />
