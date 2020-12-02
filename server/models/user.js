@@ -1,24 +1,31 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+let _userModel = null
+
 class User {
-  static shareMongooseModel () {
-    return mongoose.model('User', {
-      email: String,
-      password: String,
-    })
+  static get shareMongooseModel() {
+    if (!_userModel) {
+      _userModel = mongoose.model('User', {
+        email: String,
+        password: String,
+      })
+
+      return _userModel
+    }
+    return _userModel
   }
 
   static async findOneByEmail(email) {
-    return this.shareMongooseModel.findOne({ email });
+    return User.shareMongooseModel.findOne({ email });
   }
 
   static async findOneById(id) {
-    return this.shareMongooseModel.findById(id);
+    return User.shareMongooseModel.findById(id);
   }
 
   static async createOne({ email, password }) {
-    const user = await this.findOneByEmail(email);
+    const user = await User.findOneByEmail(email);
 
     if (user) {
       throw Error('User Already Exist');
@@ -29,13 +36,13 @@ class User {
       bcrypt.genSaltSync(8),
     );
 
-    const user = await this.shareMongooseModel.create({
+    const newUser = await User.shareMongooseModel.create({
       email,
       password: encryptedPassword,
     });
 
-    return user ;
+    return newUser;
   }
 }
 
-mongoose.export = User;
+module.exports = User;

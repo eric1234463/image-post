@@ -2,6 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const log = require('../helpers/log')
 
 passport.use(
   new LocalStrategy(
@@ -24,7 +25,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  log('passport', 'trace', {
+  log('passport', 'info', {
     message: `serializeUser with userId: ${user._id}`,
   });
 
@@ -33,11 +34,11 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    log('passport', 'trace', {
+    log('passport', 'info', {
       message: `login deserializeUser userId: ${id}`,
     });
-    const user = await User.findOneById(email);
-    log('passport', 'trace', { message: 'login deserializeUser user', user });
+    const user = await User.findOneById(id);
+    log('passport', 'info', { message: 'login deserializeUser user', user });
     done(null, user);
   } catch (err) {
     done(err);

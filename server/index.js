@@ -13,11 +13,13 @@ try {
     const webpackDevMiddleware = require("webpack-dev-middleware");
     const webpackHotMiddleware = require("webpack-hot-middleware");
     const config = require("../webpack");
-
+    const bodyParser = require('body-parser');
+    const requestLog = require('./middlewares/requestLog');
     const rootRoutes = require('./routes');
 
     const PORT = process.env.PORT || 3000;
     const app = express();
+
 
     const compiler = webpack(config);
     const middleware = webpackDevMiddleware(compiler, {
@@ -25,6 +27,11 @@ try {
       serverSideRender: true,
       publicPath: config.output.publicPath,
     });
+
+    app.use(require('cookie-parser')());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(requestLog);
 
     app.use(middleware);
 

@@ -19,6 +19,8 @@ export function* createUser(action: CreateUserRequestAction) {
       type: 'CREATE_USER_SUCCEEDED',
       payload: result.data
     });
+
+    location.reload();
   } catch (e) {
     if (process.env.NODE_ENV !== "production") {
       console.error(e);

@@ -1,6 +1,6 @@
 module.exports = async (req, res, next) => {
   if (req.isAuthenticated() && req.url.match(/sign_up|sign_in/)) {
-    return res.redirect(`/${req.user._id}/posts`);
+    return res.redirect(`/posts`);
   }
 
   if (req.isAuthenticated()) {

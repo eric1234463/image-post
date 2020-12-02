@@ -5,7 +5,7 @@ import { IUser } from "../../../../interfaces/api/user";
 
 export function* loginUserApi(payload: CreateUserRequestAction['payload']) {
   const api: Api = yield getContext("api");
-  return yield call(api.post, `users/sign_in`, { payload });
+  return yield call(api.post, `users/login`, payload);
 }
 
 export function* loginUser(action: CreateUserRequestAction) {
@@ -19,6 +19,8 @@ export function* loginUser(action: CreateUserRequestAction) {
       type: 'LOGIN_USER_SUCCEEDED',
       payload: result.data
     });
+
+    location.reload();
   } catch (e) {
     if (process.env.NODE_ENV !== "production") {
       console.error(e);

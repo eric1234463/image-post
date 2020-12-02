@@ -4,6 +4,10 @@ import { IUser } from '../../interfaces/api/user';
 import styled from '../../utils/styled';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { useSelector } from 'react-redux';
+import { State } from '../../interfaces/state';
+import { useDispatch } from '../../application/store/effects';
+import StyledLink from '../../components/StyledLink';
 
 const FormContainer = styled.form`
   display: flex;
@@ -23,6 +27,9 @@ const FormContainer = styled.form`
 `;
 
 const LoginPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector<State, State['user']>(state => state.user);
+
   const { register, handleSubmit, watch } = useForm<IUser>({
     defaultValues: {
       email: '',
@@ -31,7 +38,10 @@ const LoginPage: React.FC = () => {
   });
 
   const onSubmit = (value: IUser) => {
-    console.log(value)
+    dispatch({
+      type: 'LOGIN_USER_REQUEST',
+      payload: value,
+    })
   }
 
   return (
@@ -42,7 +52,8 @@ const LoginPage: React.FC = () => {
       <div>
         <Input type="password" ref={register} name="password" label="Password" value={watch('password')}></Input>
       </div>
-      <Button type="submit">Login</Button>
+      <Button type="submit" isLoading={isLoading}>Login</Button>
+      <StyledLink to="/users/sign_up">Sign up</StyledLink>
     </FormContainer>
   )
 }

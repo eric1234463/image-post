@@ -17,7 +17,7 @@ class JsonResponse {
 
   getResponse() {
     return recursiveDeepCopy({
-      data: { ...this.data },
+      ...this.data,
       error: { ...this.error },
     });
   }
