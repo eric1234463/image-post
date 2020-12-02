@@ -1,29 +1,44 @@
-const express = require("express");
-const webpack = require("webpack");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
-const config = require("../webpack");
+require('dotenv').config();
 
-const PublicController = require('./router/PublicController');
+const mongoose = require('mongoose');
 
-const PORT = process.env.PORT || 3006;
-const app = express();
+try {
+  console.info('connecting to mongo db')
+  mongoose.connect(`mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DB_NAME}`, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
 
-const compiler = webpack(config);
-const middleware = webpackDevMiddleware(compiler, {
-  noInfo: true,
-  serverSideRender: true,
-  publicPath: config.output.publicPath,
-});
+    console.info('connected to mongo db')
 
-app.use(middleware);
+    const express = require("express");
+    const webpack = require("webpack");
+    const webpackDevMiddleware = require("webpack-dev-middleware");
+    const webpackHotMiddleware = require("webpack-hot-middleware");
+    const config = require("../webpack");
 
-app.use(webpackHotMiddleware(compiler));
+    const rootRoutes = require('./routes');
 
-app.use(express.static("public"));
+    const PORT = process.env.PORT || 3000;
+    const app = express();
 
-app.get("/", PublicController.show);
+    const compiler = webpack(config);
+    const middleware = webpackDevMiddleware(compiler, {
+      noInfo: true,
+      serverSideRender: true,
+      publicPath: config.output.publicPath,
+    });
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
+    app.use(middleware);
+
+    app.use(webpackHotMiddleware(compiler));
+
+    app.use(express.static("public"));
+
+    app.use(rootRoutes);
+
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}`);
+    });
+  })
+} catch (e) {
+  console.error('cannot connect to mongo db')
+  throw e;
+}

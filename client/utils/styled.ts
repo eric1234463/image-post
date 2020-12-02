@@ -5,9 +5,10 @@ import baseStyled, {
   ThemedStyledInterface,
   ThemedCssFunction,
   StyledComponent as _StyledComponent,
+  createGlobalStyle as _createGlobalStyle,
 } from "styled-components";
 
-export type ColorName = "YELLOW_100" | "WHITE" | "BLACK" | "GREY_50" | "GREY_100" | "GREY_200";
+export type ColorName = "YELLOW_100" | "WHITE" | "BLACK" | "GREY_50" | "GREY_100" | "GREY_200" | "PRIMARY_500" | "PRIMARY_700" | "PRIMARY_200";
 
 export type Colors = {
   [key in ColorName]: string;
@@ -25,6 +26,9 @@ export const theme: Theme = {
     GREY_100: "#F8F8F8",
     GREY_200: "#636366",
     BLACK: "#1d1d1f",
+    PRIMARY_700: "#184e89",
+    PRIMARY_500: "#2583fd",
+    PRIMARY_200: "rgba(24, 78, 137, 0.12)",
   },
 };
 
@@ -39,3 +43,7 @@ export type StyledComponent<
   P extends {}
 > = _StyledComponent<E, Theme, P, never>;
 export default styled;
+
+declare module "styled-components" {
+  export interface DefaultTheme extends Theme {}
+}

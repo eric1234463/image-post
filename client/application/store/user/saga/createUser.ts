@@ -5,7 +5,7 @@ import { IUser } from "../../../../interfaces/api/user";
 
 export function* createUserApi(payload: CreateUserRequestAction['payload']) {
   const api: Api = yield getContext("api");
-  return yield call(api.post, `users`, { payload });
+  return yield call(api.post, `users`, { user: payload });
 }
 
 export function* createUser(action: CreateUserRequestAction) {
