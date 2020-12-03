@@ -22,8 +22,9 @@ const Loading = styled.svg<IProps>`
 const LoadingSpinner: React.FunctionComponent<IProps> = ({
   color,
   size = 24,
+  ...restProps
 }) => (
-  <Loading viewBox="0 0 32 32" width={size} height={size} color={color}>
+  <Loading viewBox="0 0 32 32" width={size} height={size} color={color} {...restProps}>
     <circle cx="16" cy="16" r="14" />
   </Loading>
 );

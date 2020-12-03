@@ -48,9 +48,9 @@ const Input: FC<IProps> = (props) => {
 
   return (
     <Wrapper>
-      <Label style={styledProps} isError={!!props.error}> { props.label }</Label>
-      <StyledInput {...props} ref={props.innerRef} isError={!!props.error} autoComplete="off"></StyledInput>
-      {props.error && <span>{props.error}</span>}
+      <Label data-testid="label" style={styledProps} isError={!!props.error}>{ props.label }</Label>
+      <StyledInput data-testid="input" {...props} ref={props.innerRef} isError={!!props.error} autoComplete="off"></StyledInput>
+      {props.error && <span data-testid="error-label">{props.error}</span>}
     </Wrapper>
   )
 }

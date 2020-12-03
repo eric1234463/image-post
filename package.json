@@ -8,7 +8,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.7.0",
     "@babel/plugin-proposal-optional-chaining": "^7.10.4",
     "@babel/plugin-syntax-dynamic-import": "^7.7.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.7.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.0",
@@ -30,6 +30,7 @@
     "@types/yup": "^0.29.9",
     "add": "^2.0.6",
     "axios": "^0.21.0",
+    "babel-jest": "^26.6.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-redis": "^5.0.0",
@@ -40,6 +41,7 @@
     "express-session": "^1.17.1",
     "ioredis": "^4.19.2",
     "is-object": "^1.0.1",
+    "jest": "^26.6.3",
     "mongoose": "^5.11.1",
     "multer": "^1.4.2",
     "nodemon": "^2.0.6",
@@ -71,6 +73,10 @@
     "yup": "^0.31.1"
   },
   "scripts": {
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^17.0.1"
   }
 }

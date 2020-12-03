@@ -37,8 +37,8 @@ const StyledButton = styled.button`
 const Button: FC<IProps> = ({ isLoading = false, ...restProps }) => {
   return (
     <StyledButton {...restProps}>
-      {isLoading && <LoadingSpinner color="WHITE" size={16}/>}
-      <span>{!isLoading && restProps.children}</span>
+      {isLoading && <LoadingSpinner data-testid="loading-spinner" color="WHITE" size={16}/>}
+      <span data-testid="label">{!isLoading && restProps.children}</span>
     </StyledButton>
   )
 }

@@ -33,5 +33,5 @@ In the project directory, you can run:
 - Logout
 
 ## Addition Feature List
-
+- Add UI Test for React Component
 
