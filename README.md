@@ -22,6 +22,8 @@ In the project directory, you can run:
 - Jest
 - Express
 - Mongodb
+- Redis
+- Typescript
 
 ## Feature List
 - Create Post
