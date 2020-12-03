@@ -1,7 +1,7 @@
 const JsonResponse = require('../helpers/jsonResponse')
 const renderJson = require('../helpers/renderJson')
 const User = require('../models/user');
-const { STATUS_OK, STATUS_CREATED } = require('../constants/Response');
+const { STATUS_OK, STATUS_CREATED, STATUS_BAD_REQUEST } = require('../constants/Response');
 
 class UserController {
   static async login(req, res) {
@@ -12,13 +12,20 @@ class UserController {
   }
 
   static async create(req, res) {
-    const user = await User.createOne(req.body.user);
-    return req.login(user, () => {
+    try {
+      const user = await User.createOne(req.body.user);
+      return req.login(user, () => {
+        return renderJson(
+          res,
+          new JsonResponse(user, STATUS_CREATED),
+        );
+      })
+    } catch (e) {
       return renderJson(
         res,
-        new JsonResponse(user, STATUS_CREATED),
+        new JsonResponse({ message: 'User Email Exist' }, STATUS_BAD_REQUEST),
       );
-    })
+    }
   }
 
   static async logout(req, res) {

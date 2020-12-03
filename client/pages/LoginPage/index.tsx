@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+import * as yup from "yup";
 import { IUser } from '../../interfaces/api/user';
 import styled from '../../utils/styled';
 import Input from '../../components/Input';
@@ -26,15 +29,23 @@ const FormContainer = styled.form`
   }
 `;
 
+const schema = yup.object().shape({
+  email: yup.string().email('Please enter a valid email address').required('Required Field'),
+  password: yup.string().min(8, 'Password at least need 6 digits').required('Required Field'),
+});
+
+
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector<State, State['user']>(state => state.user);
+  const { isLoading, error: { isLoginError } } = useSelector<State, State['user']>(state => state.user);
 
-  const { register, handleSubmit, watch } = useForm<IUser>({
+  const { register, handleSubmit, watch, errors, formState } = useForm<IUser>({
     defaultValues: {
       email: '',
       password: '',
-    }
+    },
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (value: IUser) => {
@@ -44,15 +55,21 @@ const LoginPage: React.FC = () => {
     })
   }
 
+  useEffect(() => {
+    if (isLoginError) {
+      toast.error("Password Or Email is not correct");
+    }
+  }, [isLoginError])
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input ref={register} name="email" label="Email" value={watch('email')}></Input>
+        <Input ref={register} name="email" label="Email" value={watch('email')} error={errors.email?.message}></Input>
       </div>
       <div>
-        <Input type="password" ref={register} name="password" label="Password" value={watch('password')}></Input>
+        <Input type="password" ref={register} name="password" label="Password" value={watch('password')} error={errors.password?.message}></Input>
       </div>
-      <Button type="submit" isLoading={isLoading}>Login</Button>
+      <Button type="submit" isLoading={isLoading} disabled={Object.keys(errors).length > 0 || !formState.isDirty}>Login</Button>
       <StyledLink to="/users/sign_up">Sign up</StyledLink>
     </FormContainer>
   )

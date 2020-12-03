@@ -17,6 +17,11 @@ const StyledButton = styled.button`
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.8;
+  }
+
   > svg {
     display: block;
     margin: auto;

@@ -14,6 +14,8 @@ import LoadingPage from './pages/LoadingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import PostListingPage from './pages/PostListingPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
   margin: auto;
@@ -59,6 +61,7 @@ const App: React.FC = () => {
           </Router>
         </Container>
         <GlobalStyle />
+        <ToastContainer />
       </ThemeProvider>
     </StoreProvider>
   )

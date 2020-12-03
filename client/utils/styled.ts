@@ -20,7 +20,8 @@ export type ColorName =
   | "PRIMARY_200"
   | "SHADOW_500"
   | "SHADOW_400"
-  | "SHADOW_600";
+  | "SHADOW_600"
+  | "DANGER_500";
 
 export type Colors = {
   [key in ColorName]: string;
@@ -44,6 +45,7 @@ export const theme: Theme = {
     SHADOW_500: "rgba(54, 62, 81, 0.1)",
     SHADOW_400: "rgba(54, 62, 81, 0.05)",
     SHADOW_600: "rgba(54, 62, 81, 0.2)",
+    DANGER_500: "#cf1124",
   },
 };
 

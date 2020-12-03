@@ -6,6 +6,10 @@ import UserActionTypes from "../actions";
 export const initialState: State["user"] = {
   email: "",
   isLoading: false,
+  error: {
+    isLoginError: false,
+    isEmailExist: false,
+  },
 };
 
 const apps: Reducer<State["user"], UserActionTypes> = (
@@ -18,12 +22,26 @@ const apps: Reducer<State["user"], UserActionTypes> = (
       return {
         ...state,
         isLoading: true,
+        error: initialState.error,
       };
-    case "CREATE_USER_FAILED":
+
     case "LOGIN_USER_FAILED":
       return {
         ...state,
         isLoading: false,
+        error: {
+          ...state.error,
+          isLoginError: true,
+        },
+      };
+    case "CREATE_USER_FAILED":
+      return {
+        ...state,
+        isLoading: false,
+        error: {
+          ...state.error,
+          isEmailExist: true,
+        },
       };
 
     case "CREATE_USER_SUCCEEDED":
@@ -32,6 +50,7 @@ const apps: Reducer<State["user"], UserActionTypes> = (
         ...state,
         email: action.payload.email,
         isLoading: false,
+        error: initialState.error,
       };
     default:
       return state;
