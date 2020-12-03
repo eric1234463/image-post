@@ -1,4 +1,4 @@
-# Social Post Project with React SSR (self defined tools)
+# Social Post Project with React SSR
 
 
 ## Available Scripts
