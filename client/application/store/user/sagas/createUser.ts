@@ -20,7 +20,9 @@ export function* createUser(action: CreateUserRequestAction) {
       payload: result.data
     });
 
-    location.reload();
+    if (process.env.NODE_ENV !== "test") {
+      location.reload();
+    }
   } catch (e) {
     if (process.env.NODE_ENV !== "production") {
       console.error(e);

@@ -34,4 +34,5 @@ In the project directory, you can run:
 
 ## Addition Feature List
 - Add UI Test for React Component
+- Add Saga Test for React event flow
 
