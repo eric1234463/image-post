@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 import Button from "../../../components/Button";
 import ImageUpload from "../../../components/ImageUpload";
 import Input from "../../../components/Input";
@@ -28,19 +30,25 @@ const Form = styled.form`
   }
 `;
 
+const schema = yup.object().shape({
+  description: yup.string().required('Required Field'),
+});
+
 const CreatePostModal: FunctionComponent<ModalProps> = ({
   isModalShow,
   onClose,
   onConfirm,
 }) => {
-  const { register, unregister, handleSubmit, watch, setValue } = useForm<IPostForm>({
+  const { register, unregister, handleSubmit, watch, setValue, formState, errors } = useForm<IPostForm>({
     defaultValues: {
       description: '',
       image: {
         file: null,
         base64Data: null,
       }
-    }
+    },
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
   });
 
   const handleConfirm = (value: IPostForm) => {
@@ -76,6 +84,7 @@ const CreatePostModal: FunctionComponent<ModalProps> = ({
             <>
               <Button
                 onClick={handleSubmit(handleConfirm)}
+                disabled={!formState.isDirty}
               >
                 Create
               </Button>
@@ -83,7 +92,7 @@ const CreatePostModal: FunctionComponent<ModalProps> = ({
           )}
         >
           <Form>
-            <Input label="description" name="description" ref={register} value={watch('description')} />
+            <Input label="description" name="description" ref={register} value={watch('description')} error={errors.description?.message} />
             {!imageUrl && (
               <ImageUpload
                 render={(onFileInputClick) => (
