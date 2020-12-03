@@ -12,6 +12,7 @@ try {
     const webpack = require("webpack");
     const webpackDevMiddleware = require("webpack-dev-middleware");
     const webpackHotMiddleware = require("webpack-hot-middleware");
+    const path = require('path');
     const config = require("../webpack");
     const bodyParser = require('body-parser');
     const requestLog = require('./middlewares/requestLog');
@@ -37,7 +38,7 @@ try {
 
     app.use(webpackHotMiddleware(compiler));
 
-    app.use(express.static("public"));
+    app.use('/public', express.static(path.resolve(__dirname, './public')));
 
     app.use(rootRoutes);
 

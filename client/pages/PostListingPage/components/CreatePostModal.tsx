@@ -37,7 +37,8 @@ const CreatePostModal: FunctionComponent<ModalProps> = ({
     defaultValues: {
       description: '',
       image: {
-        url: null
+        file: null,
+        base64Data: null,
       }
     }
   });
@@ -45,19 +46,23 @@ const CreatePostModal: FunctionComponent<ModalProps> = ({
   const handleConfirm = (value: IPostForm) => {
     onConfirm(value);
     onClose();
-    unregister('image[url]');
+    unregister('image[file]');
+    unregister('image[base64Data]');
   };
 
-  const imageUrl: string = watch('image[url]');
+  const imageUrl: string = watch('image[base64Data]');
 
   const onFileChange = (filesData: string[], files: FileList) => {
-    setValue('image[url]', filesData[0], { shouldDirty: true });
+    setValue('image[base64Data]', filesData[0], { shouldDirty: true });
+    setValue('image[file]', files[0], { shouldDirty: true });
   }
 
   const onFileError = () => { }
 
   useEffect(() => {
-    register('image[url]')
+    register('image[file]')
+    register('image[base64Data]')
+
   }, [])
 
   return (

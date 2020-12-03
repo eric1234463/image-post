@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '../../utils/styled';
 import Button from '../../components/Button';
 import { useSelector } from 'react-redux';
@@ -37,7 +37,7 @@ const Table = styled.table`
 
 const PostListingPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector<State, State['user']>(state => state.user);
+  const { items } = useSelector<State, State['post']>(state => state.post);
   const [isCreatePostModalShow, setIsCreatePostModalShow] = useState<boolean>(false);
 
   const onConfirm = (value: IPostForm) => {
@@ -51,18 +51,29 @@ const PostListingPage: React.FC = () => {
     setIsCreatePostModalShow(false);
   }
 
+  useEffect(() => {
+    dispatch({
+      type: 'GET_POSTS_REQUEST',
+    })
+  }, [])
+
   return (
     <Wrapper>
       <Button onClick={() => setIsCreatePostModalShow(true)}>Create Post</Button>
       <Table>
+
         <tr>
           <th>Description</th>
           <th>Image</th>
         </tr>
-        <tr>
-          <td>Hello World</td>
-          <td><img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" /></td>
-        </tr>
+
+        {items.map(item => (
+          <tr key={item.id}>
+            <td key={item.id}>{item.description}</td>
+            <td key={item.id}>{item.media && item.media.url && <img src={`/public/images/${item.media.url}`} />}</td>
+          </tr>
+        ))}
+
       </Table>
       {isCreatePostModalShow && <CreatePostModal onConfirm={onConfirm} onClose={onClose} isModalShow={isCreatePostModalShow} />}
     </Wrapper>

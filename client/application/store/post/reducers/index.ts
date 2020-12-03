@@ -14,6 +14,7 @@ const post: Reducer<State["post"], PostActionTypes> = (
 ) => {
   switch (action.type) {
     case 'CREATE_POST_REQUEST':
+    case 'GET_POSTS_REQUEST':
       return {
         ...state,
         isLoading: true,
@@ -24,7 +25,12 @@ const post: Reducer<State["post"], PostActionTypes> = (
         ...state,
         isLoading: false,
       };
-
+    case 'GET_POSTS_SUCCEEDED':
+      return {
+        ...state,
+        isLoading: false,
+        items: action.payload,
+      }
     default:
       return state;
   }

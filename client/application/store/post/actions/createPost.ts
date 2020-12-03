@@ -11,7 +11,7 @@ export interface CreatePostRequestAction {
 
 export interface CreatePostSucceededAction {
   type: typeof CREATE_POST_SUCCEEDED;
-  payload: IPost[];
+  payload: IPost;
 }
 
 export interface CreatePostFailedAction {

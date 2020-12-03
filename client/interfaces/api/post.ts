@@ -5,10 +5,19 @@ export interface IPostForm {
 
 export interface IPostImage {
   id: string;
-  url: string | null;
+  url?: string | null;
+  file?: File | null;
+  base64Data?: string | null
 }
 
-export interface IPost extends IPostForm {
+export interface IPost {
   userId: string;
+  media?: IPostImage;
+  description: string;
   id: string;
+}
+
+export interface IGetPostResponse {
+  data: IPost[];
+  error: any;
 }
